@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:archive/archive.dart';
-import 'package:epub_parser/dublin_core_metadata.dart';
-
-import 'package:epub_parser/standar_constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
+import 'package:archive/archive.dart';
+import 'package:epub_parser/models/models.dart';
+import 'package:epub_parser/standar_constants.dart';
 
 class Epub {
   Epub.fromBytes(this.fileBytes) : zip = ZipDecoder().decodeBytes(fileBytes);
@@ -42,8 +41,8 @@ class Epub {
     return content;
   }
 
-  void getMetadata() {
-    final metadata = <String, List<DublinCoreMetadata>>{};
+  List<Metadata> getMetadata() {
+    final metadata = <Metadata>[];
     final metadataxml = _rootFileContent.xpath('/package/metadata').first;
 
     metadataxml.descendantElements
@@ -56,33 +55,37 @@ class Epub {
         id: element.getAttribute('id'),
       );
 
-      metadata[key] = [...?metadata[key], dcmetadata];
+      metadata.add(dcmetadata);
     });
 
     metadataxml.descendantElements
-        .where((element) =>
-            element.name.toString() == 'meta' &&
-            element.getAttribute('refines') != null)
+        .where((element) => element.name.toString() == 'meta')
         .forEach((element) {
-      final targetValue = metadata.values.firstWhere(
-        (value) => value.any(
-          (meta) => '#${meta.id}' == element.getAttribute('refines'),
-        ),
-        orElse: () => [],
-      );
-      if (targetValue.isEmpty) return;
+      final docmetadata = DocumentMetadata(
+          refinesTo: element.getAttribute('refines')?.substring(1),
+          property: element.getAttribute('property'),
+          value: element.innerText,
+          id: element.getAttribute('id'),
+          schema: element.getAttribute('schema'),
+          name: element.getAttribute('name'),
+          content: element.getAttribute('content'));
 
-      final targetMetadata = targetValue.firstWhere(
-          (meta) => '#${meta.id}' == element.getAttribute('refines'));
+      if (docmetadata.refinesTo != null) {
+        final target = metadata.firstWhere(
+          (meta) => docmetadata.refinesTo == meta.id,
+          orElse: () => DocumentMetadata(),
+        );
 
-      /// refines.addAll() and refines[key]=value throws error for unknown reason.
-      targetMetadata.refines = {
-        ...targetMetadata.refines,
-        element.getAttribute('property').toString(): element.innerText,
-      };
+        if (!target.isEmpty) {
+          /// .add() throws error for unknown reason.
+          target.refinements = [...target.refinements, docmetadata];
+        }
+      } else {
+        metadata.add(docmetadata);
+      }
     });
 
-    print(metadata);
+    return metadata;
   }
 }
 
