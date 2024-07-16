@@ -70,18 +70,20 @@ class Epub {
           name: element.getAttribute('name'),
           content: element.getAttribute('content'));
 
-      if (docmetadata.refinesTo != null) {
+      if (docmetadata.refinesTo == null) {
+        metadata.add(docmetadata);
+      } else {
         final target = metadata.firstWhere(
           (meta) => docmetadata.refinesTo == meta.id,
-          orElse: () => DocumentMetadata(),
+          orElse: () => Metadata.empty,
         );
 
-        if (!target.isEmpty) {
+        if (target.isEmpty) {
+          metadata.add(docmetadata);
+        } else {
           /// .add() throws error for unknown reason.
           target.refinements = [...target.refinements, docmetadata];
         }
-      } else {
-        metadata.add(docmetadata);
       }
     });
 

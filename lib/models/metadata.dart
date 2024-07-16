@@ -7,6 +7,8 @@ abstract class Metadata {
   final String? value;
   List<DocumentMetadata> refinements;
 
+  static Metadata get empty => DocumentMetadata();
+
   bool get isEmpty {
     return id == null && value == null && refinements.isEmpty;
   }
