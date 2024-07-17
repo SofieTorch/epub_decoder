@@ -48,33 +48,20 @@ class Epub {
     metadataxml.descendantElements
         .where((element) => element.name.toString().startsWith('dc:'))
         .forEach((element) {
-      final key = element.name.toString().substring(3);
-      final dcmetadata = DublinCoreMetadata(
-        key: key,
-        value: element.innerText,
-        id: element.getAttribute('id'),
-      );
-
+      final dcmetadata = element.toDublinCoreMetadata();
       metadata.add(dcmetadata);
     });
 
     metadataxml.descendantElements
         .where((element) => element.name.toString() == 'meta')
         .forEach((element) {
-      final docmetadata = DocumentMetadata(
-          refinesTo: element.getAttribute('refines')?.substring(1),
-          property: element.getAttribute('property'),
-          value: element.innerText,
-          id: element.getAttribute('id'),
-          schema: element.getAttribute('schema'),
-          name: element.getAttribute('name'),
-          content: element.getAttribute('content'));
+      final docmetadata = element.toDocumentMetadata();
 
       if (docmetadata.refinesTo == null) {
         metadata.add(docmetadata);
       } else {
         final target = metadata.firstWhere(
-          (meta) => docmetadata.refinesTo == meta.id,
+          (metaelement) => docmetadata.refinesTo == metaelement.id,
           orElse: () => Metadata.empty,
         );
 
@@ -89,8 +76,64 @@ class Epub {
 
     return metadata;
   }
+
+  List<Item> getItems() {
+    final items = <Item>[];
+    final itemsxml = _rootFileContent.xpath('/package/manifest').first;
+
+    for (var element in itemsxml.descendantElements) {
+      final item = element.toManifestItem();
+      final mediaOverlayId = element.getAttribute('media-overlay');
+
+      if (mediaOverlayId != null) {
+        final mediaOverlay = itemsxml.descendantElements.firstWhere(
+          (itemxml) => itemxml.getAttribute('id') == mediaOverlayId,
+          orElse: () => throw UnimplementedError(
+              'Referenced media overlay not found or not declared.'),
+        );
+        item.mediaOverlay = mediaOverlay.toManifestItem();
+      }
+      items.add(item);
+    }
+    return items;
+  }
 }
 
 extension on String {
   String get extension => split('.').last;
+}
+
+extension on XmlElement {
+  Item toManifestItem() {
+    return Item(
+      id: getAttribute('id')!,
+      href: getAttribute('href')!,
+      mediaType: getAttribute('media-type')!,
+      properties: getAttribute('properties')
+              ?.split(' ')
+              .map((property) => ItemProperty.fromValue(property))
+              .toList() ??
+          [],
+    );
+  }
+
+  DocumentMetadata toDocumentMetadata() {
+    return DocumentMetadata(
+      refinesTo: getAttribute('refines')?.substring(1),
+      property: getAttribute('property'),
+      value: innerText,
+      id: getAttribute('id'),
+      schema: getAttribute('schema'),
+      name: getAttribute('name'),
+      content: getAttribute('content'),
+    );
+  }
+
+  DublinCoreMetadata toDublinCoreMetadata() {
+    return DublinCoreMetadata(
+      key: name.toString().substring(3),
+      value: innerText,
+      id: getAttribute('id'),
+    );
+  }
 }

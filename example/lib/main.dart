@@ -37,7 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
     final epubFile = await rootBundle.load('assets/20140802-demo.epub');
     final epub = Epub.fromBytes(epubFile.buffer.asUint8List());
-    epub.getMetadata();
+    print(epub.getMetadata());
+    print(epub.getItems());
     setState(() {
       _counter++;
     });
