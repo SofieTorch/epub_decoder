@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:epub_parser/epub.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,6 +41,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final epub = Epub.fromBytes(epubFile.buffer.asUint8List());
     print(epub.getMetadata());
     print(epub.getItems());
+    print(utf8.decode(epub.getItems()[0].getFileContent(epub)));
     setState(() {
       _counter++;
     });

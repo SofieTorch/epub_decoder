@@ -1,3 +1,6 @@
+import 'dart:typed_data';
+
+import 'package:epub_parser/epub.dart';
 import 'package:epub_parser/models/item_media_type.dart';
 import 'package:epub_parser/models/item_property.dart';
 
@@ -25,5 +28,10 @@ class Item {
       'properties': properties.toString(),
       'mediaOverlay': mediaOverlay.toString(),
     }.toString();
+  }
+
+  Uint8List getFileContent(Epub source) {
+    final file = source.zip.findFile('OEBPS/$href');
+    return file?.content;
   }
 }
