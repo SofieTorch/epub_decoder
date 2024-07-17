@@ -1,3 +1,6 @@
+import 'package:epub_parser/models/item_media_type.dart';
+import 'package:epub_parser/models/item_property.dart';
+
 class Item {
   Item({
     required this.id,
@@ -9,7 +12,7 @@ class Item {
 
   final String id;
   final String href;
-  final String mediaType;
+  final ItemMediaType mediaType;
   final List<ItemProperty> properties;
   Item? mediaOverlay;
 
@@ -22,22 +25,5 @@ class Item {
       'properties': properties.toString(),
       'mediaOverlay': mediaOverlay.toString(),
     }.toString();
-  }
-}
-
-enum ItemProperty {
-  coverImage('cover-image'),
-  mathML('mathml'),
-  scripted('scripted'),
-  svg('svg'),
-  remoteResources('remote-resources'),
-  $switch('switch'),
-  nav('nav');
-
-  const ItemProperty(this.value);
-  final String value;
-
-  static ItemProperty fromValue(String value) {
-    return ItemProperty.values.firstWhere((item) => item.value == value);
   }
 }
