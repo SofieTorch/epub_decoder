@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:epub_parser/epub.dart';
+import 'package:epub_parser/models/document_metadata.dart';
 import 'package:epub_parser/models/item_media_type.dart';
 import 'package:epub_parser/models/item_property.dart';
 
@@ -11,12 +12,14 @@ class Item {
     required this.mediaType,
     this.mediaOverlay,
     this.properties = const [],
+    this.refinements = const [],
   });
 
   final String id;
   final String href;
   final ItemMediaType mediaType;
   final List<ItemProperty> properties;
+  List<DocumentMetadata> refinements;
   Item? mediaOverlay;
 
   @override
@@ -27,6 +30,7 @@ class Item {
       'mediaType': mediaType,
       'properties': properties.toString(),
       'mediaOverlay': mediaOverlay.toString(),
+      'refinements': refinements.toString(),
     }.toString();
   }
 

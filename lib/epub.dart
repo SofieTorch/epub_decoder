@@ -81,6 +81,7 @@ class Epub {
   List<Item> getItems() {
     final items = <Item>[];
     final itemsxml = _rootFileContent.xpath('/package/manifest').first;
+    final metadata = getMetadata();
 
     for (var element in itemsxml.descendantElements) {
       final item = element.toManifestItem();
@@ -94,6 +95,9 @@ class Epub {
         );
         item.mediaOverlay = mediaOverlay.toManifestItem();
       }
+
+      item._addRefinementsFrom(metadata);
+      item.mediaOverlay?._addRefinementsFrom(metadata);
       items.add(item);
     }
     return items;
@@ -102,4 +106,18 @@ class Epub {
 
 extension on String {
   String get extension => split('.').last;
+}
+
+extension on Item {
+  void _addRefinementsFrom(List<Metadata> metadata) {
+    refinements = [
+      ...refinements,
+      ...metadata
+          .where((element) =>
+              element is DocumentMetadata &&
+              element.refinesTo != null &&
+              element.refinesTo == id)
+          .map((element) => element as DocumentMetadata)
+    ];
+  }
 }
