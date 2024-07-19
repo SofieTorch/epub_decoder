@@ -22,6 +22,13 @@ class Item {
   List<DocumentMetadata> refinements;
   Item? mediaOverlay;
 
+  String get fileName => href.split('/').last;
+
+  Uint8List getFileContent(Epub source) {
+    final file = source.zip.findFile('OEBPS/$href');
+    return file?.content;
+  }
+
   @override
   String toString() {
     return {
@@ -32,10 +39,5 @@ class Item {
       'mediaOverlay': mediaOverlay.toString(),
       'refinements': refinements.toString(),
     }.toString();
-  }
-
-  Uint8List getFileContent(Epub source) {
-    final file = source.zip.findFile('OEBPS/$href');
-    return file?.content;
   }
 }

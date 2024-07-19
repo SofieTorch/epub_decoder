@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:epub_parser/epub.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -39,8 +37,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async {
     final epubFile = await rootBundle.load('assets/20140802-demo.epub');
     final epub = Epub.fromBytes(epubFile.buffer.asUint8List());
-    print(epub.getMetadata());
-    print(epub.getItems());
+    print(epub.metadata);
+    print(epub.items);
+    print(epub.sections);
     // print(utf8.decode(epub.getItems()[0].getFileContent(epub)));
     setState(() {
       _counter++;

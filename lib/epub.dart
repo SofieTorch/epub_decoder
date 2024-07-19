@@ -20,6 +20,9 @@ class Epub {
 
   final Uint8List fileBytes;
   final Archive zip;
+  List<Metadata>? _metadata;
+  List<Item>? _items;
+  List<Section>? _sections;
 
   String get _rootFilePath {
     final container = zip.findFile(CONTAINER_FILE_PATH);
@@ -42,7 +45,9 @@ class Epub {
     return content;
   }
 
-  List<Metadata> getMetadata() {
+  List<Metadata> get metadata {
+    if (_metadata != null) return _metadata!;
+
     final metadata = <Metadata>[];
     final metadataxml = _rootFileContent.xpath('/package/metadata').first;
 
@@ -75,13 +80,15 @@ class Epub {
       }
     });
 
-    return metadata;
+    _metadata = metadata;
+    return _metadata!;
   }
 
-  List<Item> getItems() {
+  List<Item> get items {
+    if (_items != null) return _items!;
+
     final items = <Item>[];
     final itemsxml = _rootFileContent.xpath('/package/manifest').first;
-    final metadata = getMetadata();
 
     for (var element in itemsxml.descendantElements) {
       final item = element.toManifestItem();
@@ -100,7 +107,33 @@ class Epub {
       item.mediaOverlay?._addRefinementsFrom(metadata);
       items.add(item);
     }
-    return items;
+
+    _items = items;
+    return _items!;
+  }
+
+  List<Section> get sections {
+    if (_sections != null) return _sections!;
+
+    final sections = <Section>[];
+    final spinexml = _rootFileContent.xpath('/package/spine').first;
+    final spineItems = spinexml.findAllElements('itemref');
+    for (var (index, itemref) in spineItems.indexed) {
+      final item = items.firstWhere(
+        (item) => item.id == itemref.getAttribute('idref'),
+      );
+
+      final section = Section(
+        content: item,
+        epub: this,
+        readingOrder: index + 1,
+      );
+
+      sections.add(section);
+    }
+
+    _sections = sections;
+    return _sections!;
   }
 }
 
