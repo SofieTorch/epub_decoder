@@ -1,3 +1,4 @@
+import 'package:epub_parser/string_to_duration_parsing.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
@@ -41,16 +42,5 @@ class SmilParallel {
       'textFileName': textFileName,
       'textId': textId,
     }.toString();
-  }
-}
-
-extension on Duration {
-  Duration fromString(String duration) {
-    final units = duration.split(':');
-    return Duration(
-        hours: int.parse(units[0]),
-        minutes: int.parse(units[1]),
-        seconds: int.parse(units[2].split('.')[0]),
-        milliseconds: int.parse(units[2].split('.')[1]));
   }
 }

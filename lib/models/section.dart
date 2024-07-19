@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:epub_parser/epub.dart';
 import 'package:epub_parser/models/models.dart';
+import 'package:epub_parser/string_to_duration_parsing.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
@@ -21,6 +22,16 @@ class Section {
   final Item content;
   final int readingOrder;
   ArchiveFile? _audio;
+
+  Duration? get duration {
+    final durationstr = content.mediaOverlay?.refinements
+        .firstWhere((refinement) => refinement.property == 'media:duration')
+        .value;
+
+    return durationstr != null
+        ? const Duration().fromString(durationstr)
+        : null;
+  }
 
   XmlDocument get _smil => XmlDocument.parse(
         utf8.decode(content.mediaOverlay!.getFileContent(epub)),
@@ -56,6 +67,7 @@ class Section {
     return {
       'content': content,
       'readingOrder': readingOrder,
+      'duration': duration,
       'smilParallels': smilParallels,
     }.toString();
   }
