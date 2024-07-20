@@ -4,7 +4,7 @@ import 'dart:typed_data';
 import 'package:archive/archive.dart';
 import 'package:epub_parser/epub.dart';
 import 'package:epub_parser/models/models.dart';
-import 'package:epub_parser/string_to_duration_parsing.dart';
+import 'package:epub_parser/extensions/duration_parsing.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
@@ -35,7 +35,7 @@ class Section {
   }
 
   XmlDocument get _smil => XmlDocument.parse(
-        utf8.decode(content.mediaOverlay!.getFileContent(epub)),
+        utf8.decode(content.mediaOverlay!.fileContent),
       );
 
   Uint8List? get audio {

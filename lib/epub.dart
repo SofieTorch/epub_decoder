@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:epub_parser/xml_to_epub_parsing.dart';
+import 'package:epub_parser/extensions/xml_parsing.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
@@ -91,7 +91,7 @@ class Epub {
     final itemsxml = _rootFileContent.xpath('/package/manifest').first;
 
     for (var element in itemsxml.descendantElements) {
-      final item = element.toManifestItem();
+      final item = element.toManifestItem(source: this);
       final mediaOverlayId = element.getAttribute('media-overlay');
 
       if (mediaOverlayId != null) {
@@ -100,7 +100,7 @@ class Epub {
           orElse: () => throw UnimplementedError(
               'Referenced media overlay not found or not declared.'),
         );
-        item.mediaOverlay = mediaOverlay.toManifestItem();
+        item.mediaOverlay = mediaOverlay.toManifestItem(source: this);
       }
 
       item._addRefinementsFrom(metadata);
