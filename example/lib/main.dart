@@ -40,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
     print(epub.metadata);
     print(epub.items);
     print(epub.sections);
+    print(epub.sections[1].getParallelAtTime(const Duration(seconds: 10)));
     // print(utf8.decode(epub.getItems()[0].getFileContent(epub)));
     setState(() {
       _counter++;

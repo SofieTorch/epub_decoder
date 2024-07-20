@@ -22,6 +22,7 @@ class Section {
   final Item content;
   final int readingOrder;
   ArchiveFile? _audio;
+  List<SmilParallel>? _smilParallels;
 
   Duration? get duration {
     final durationstr = content.mediaOverlay?.refinements
@@ -54,12 +55,25 @@ class Section {
   }
 
   List<SmilParallel> get smilParallels {
+    if (_smilParallels != null) return _smilParallels!;
     if (audio == null) return [];
 
     final xmlParallels = _smil.findAllElements('par');
     final result = xmlParallels.map(SmilParallel.fromParXml);
+    _smilParallels = result.toList();
 
-    return result.toList();
+    return _smilParallels!;
+  }
+
+  SmilParallel? getParallelAtTime(Duration currentTime) {
+    if (duration == null) return null;
+    assert(currentTime <= duration!);
+
+    final parallel = smilParallels.firstWhere(
+      (par) => currentTime >= par.clipBegin && currentTime <= par.clipEnd,
+    );
+
+    return parallel;
   }
 
   @override
