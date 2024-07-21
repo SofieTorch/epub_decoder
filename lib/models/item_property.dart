@@ -1,3 +1,4 @@
+/// Allowed special uses of resources in EPUB3.
 enum ItemProperty {
   coverImage('cover-image'),
   mathML('mathml'),

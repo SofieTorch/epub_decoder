@@ -1,3 +1,4 @@
+/// Allowed media types for resources in EPUB3.
 enum ItemMediaType {
   gif('image/gif'),
   jpeg('image/jpeg'),

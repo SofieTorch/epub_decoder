@@ -2,6 +2,12 @@ import 'package:epub_parser/extensions/duration_parsing.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
+/// Segment of audio/text synchronization through Media Overlays.
+///
+/// SMIL from the specification Synchronized Multimedia Integration Language.
+/// Parallel is a representation of <par> elements which contains media objects.
+/// This should be part of a sequence of parallels, usually inside a [Section],
+/// which is where the audio and text/content comes from.
 class SmilParallel {
   const SmilParallel({
     required this.id,
@@ -11,12 +17,23 @@ class SmilParallel {
     required this.textId,
   });
 
+  /// Segment unique identifier in the EPUB.
   final String id;
+
+  /// Segment beginning in [Section.audio].
   final Duration clipBegin;
+
+  /// Segment ending in [Section.audio].
   final Duration clipEnd;
+
+  /// Name of the associated text file.
   final String textFileName;
+
+  /// Identifier of the text segment (inside the text file
+  /// from [textFileName]) to be synchronized.
   final String textId;
 
+  /// Creates a [SmilParallel] from a <par> xml element.
   factory SmilParallel.fromParXml(XmlElement xml) {
     final audioNode = xml.xpath('audio').first;
     final textNode = xml.xpath('text').first;
