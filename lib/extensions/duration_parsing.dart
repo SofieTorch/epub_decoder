@@ -1,4 +1,6 @@
+/// Adds extra parsing to [Duration] class.
 extension DurationParsing on Duration {
+  /// Creates a [Duration] from a [String] formatted as `hh:mm:ss.ms`.
   Duration fromString(String duration) {
     final units = duration.split(':');
     return Duration(

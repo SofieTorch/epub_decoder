@@ -1,7 +1,4 @@
 library epub_parser;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'epub.dart';
+export 'package:epub_parser/models/models.dart';

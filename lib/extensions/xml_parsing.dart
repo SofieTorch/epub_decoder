@@ -2,7 +2,9 @@ import 'package:epub_parser/epub.dart';
 import 'package:epub_parser/models/models.dart';
 import 'package:xml/xml.dart';
 
+/// Add extra parsing for [XmlElement] to EPUB objects.
 extension XmlParsing on XmlElement {
+  /// Creates an [Item] from an XML `<item>` tag inside EPUB `<manifest>`.
   Item toManifestItem({required Epub source}) {
     return Item(
       id: getAttribute('id')!,
@@ -17,6 +19,7 @@ extension XmlParsing on XmlElement {
     );
   }
 
+  /// Creates a [DocumentMetadata] from an XML `<meta>` tag inside EPUB `<metadata>`.
   DocumentMetadata toDocumentMetadata() {
     return DocumentMetadata(
       refinesTo: getAttribute('refines')?.substring(1),
@@ -29,6 +32,7 @@ extension XmlParsing on XmlElement {
     );
   }
 
+  /// Creates a [DublinCoreMetadata] from an XML `<dc:` tag inside EPUB `<metadata>`.
   DublinCoreMetadata toDublinCoreMetadata() {
     return DublinCoreMetadata(
       key: name.toString().substring(3),

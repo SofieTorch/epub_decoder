@@ -10,6 +10,7 @@ import 'package:xml/xpath.dart';
 
 /// References an [Item] to be read as main content from the EPUB.
 class Section {
+  /// Creates a group of text and audio that are part of an EPUB main content.
   Section({
     required this.epub,
     required this.content,

@@ -5,6 +5,7 @@ import 'package:epub_parser/models/metadata.dart';
 /// This type of metadata represents info such as
 /// title, authors, contributors, language, etc.
 class DublinCoreMetadata extends Metadata {
+  /// Creates metadata describing relevant information about an EPUB.
   DublinCoreMetadata({
     required this.key,
     required super.value,

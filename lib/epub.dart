@@ -10,22 +10,40 @@ import 'package:archive/archive.dart';
 import 'package:epub_parser/models/models.dart';
 import 'package:epub_parser/standar_constants.dart';
 
+/// Representation of an EPUB file.
+///
+/// This class provides methods to parse an EPUB file from bytes or from a file,
+/// and access its metadata, manifest items, and spine through [Section]s.
 class Epub {
+  /// Constructs an [Epub] instance from a list of bytes.
+  ///
+  /// The [fileBytes] parameter should contain the raw bytes of the EPUB file.
   Epub.fromBytes(this.fileBytes) : zip = ZipDecoder().decodeBytes(fileBytes);
 
+  /// Constructs an [Epub] instance from a [File].
+  ///
+  /// The [file] parameter should point to a valid EPUB file.
   Epub.fromFile(File file)
-      : assert(file.path.extension == 'epub'),
+      : assert(file.path._extension == 'epub'),
         fileBytes = file.readAsBytesSync(),
         zip = ZipDecoder().decodeBytes(file.readAsBytesSync());
 
+  /// The raw bytes of the EPUB file.
   final Uint8List fileBytes;
+
+  /// The decoded ZIP archive of the EPUB file.
   final Archive zip;
+
   List<Metadata>? _metadata;
   List<Item>? _items;
   List<Section>? _sections;
 
+  /// Path to the root file (usually 'content.opf') in the EPUB.
+  ///
+  /// Throws a [FormatException] if the container file or the root file path
+  /// is not found.
   String get _rootFilePath {
-    final container = zip.findFile(CONTAINER_FILE_PATH);
+    final container = zip.findFile(containerFilePath);
     container ?? (throw const FormatException('Container file not found.'));
 
     final content = XmlDocument.parse(utf8.decode(container.content));
@@ -38,6 +56,9 @@ class Epub {
     return path;
   }
 
+  /// Content of the root file as an XML document.
+  ///
+  /// Throws a [FormatException] if the root file is not found.
   XmlDocument get _rootFileContent {
     final file = zip.findFile(_rootFilePath);
     file ?? (throw const FormatException('Root file not found.'));
@@ -45,6 +66,10 @@ class Epub {
     return content;
   }
 
+  /// Metadata of the EPUB file, such as title, authors, media overlays, etc.
+  ///
+  /// This includes both Dublin Core metadata and additional document metadata.
+  /// If the metadata has already been parsed, returns the cached metadata.
   List<Metadata> get metadata {
     if (_metadata != null) return _metadata!;
 
@@ -84,6 +109,9 @@ class Epub {
     return _metadata!;
   }
 
+  /// Resources (images, audio, text, etc.) of the EPUB file, as [Item]s.
+  ///
+  /// If the items have already been parsed, returns the cached items.
   List<Item> get items {
     if (_items != null) return _items!;
 
@@ -112,6 +140,10 @@ class Epub {
     return _items!;
   }
 
+  /// Reading sections of the EPUB file in order.
+  ///
+  /// Sections are determined by the spine element in the EPUB's package document.
+  /// If the sections have already been parsed, returns the cached sections.
   List<Section> get sections {
     if (_sections != null) return _sections!;
 
@@ -138,7 +170,7 @@ class Epub {
 }
 
 extension on String {
-  String get extension => split('.').last;
+  String get _extension => split('.').last;
 }
 
 extension on Item {

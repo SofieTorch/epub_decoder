@@ -1,7 +1,10 @@
 import 'package:epub_parser/models/metadata.dart';
 
-/// Relevant and flexible information associated to an [Item] or another [Metadata].
+/// Relevant and flexible information associated to
+/// an [Item], another [Metadata], or the EPUB package itself.
 class DocumentMetadata extends Metadata {
+  /// Creates metadata that could be either for
+  /// another element or the EPUB package itself.
   DocumentMetadata({
     this.refinesTo,
     String? property,

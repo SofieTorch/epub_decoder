@@ -1,1 +1,1 @@
-const CONTAINER_FILE_PATH = 'META-INF/container.xml';
+const containerFilePath = 'META-INF/container.xml';
