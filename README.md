@@ -29,8 +29,8 @@ Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
 
 ### Work in progress
 
-- [ ] Direct getters for relevant attributes (such as title, authors, etc.)  
-- [ ] Read navigation definition  
+- [ ] Direct getters for relevant attributes (such as title, authors, etc.)
+- [ ] Read navigation definition
 - [ ] Support for bindings
 
 ## Getting started
@@ -55,6 +55,7 @@ And then, access its properties:
 
     <details>
     <summary> :arrow_lower_right: Expand for example result</summary>
+    Please note that this is actually a `List<Metadata>` object (here you are seeing its `.toString()` representation).
 
   ```
   [
@@ -132,11 +133,11 @@ And then, access its properties:
 
     </details>
 
-
 - **Retrieving resources/items:** `epub.items`
 
     <details>
     <summary>:arrow_lower_right: Expand for example result</summary>
+    Please note that this is actually a `List<Item>` object (here you are seeing its `.toString()` representation).
 
   ```
   [
@@ -194,11 +195,11 @@ And then, access its properties:
 
     </details>
 
-
 - **Retrieving reading sections:** `epub.sections`
 
     <details>
     <summary>:arrow_lower_right: Expand for example result</summary>
+    Please note that this is actually a `List<Section>` object (here you are seeing its `.toString()` representation).
 
   ```
   [
@@ -279,7 +280,6 @@ And then, access its properties:
 
     </details>
 
-
 - **Retrieving text segment from a certain time**
 
   ```dart
@@ -290,6 +290,7 @@ And then, access its properties:
 
     <details>
     <summary>:arrow_lower_right: Expand for example result</summary>
+    Please note that this is actually a `SmilParallel` object (here you are seeing its `.toString()` representation).
 
   ```
   {
