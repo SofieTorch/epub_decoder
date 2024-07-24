@@ -132,7 +132,6 @@ And then, access its properties:
 
     </details>
 
----
 
 - **Retrieving resources/items:** `epub.items`
 
@@ -195,7 +194,6 @@ And then, access its properties:
 
     </details>
 
----
 
 - **Retrieving reading sections:** `epub.sections`
 
@@ -281,7 +279,6 @@ And then, access its properties:
 
     </details>
 
----
 
 - **Retrieving text segment from a certain time**
 
