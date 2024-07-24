@@ -11,7 +11,7 @@ and the Flutter guide for
 [developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 <h1 align="center">
-📖📑 EPUB Parser for Dart 📑📖
+📑  EPUB Parser for Flutter  📑
 </h1>
 
 Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
