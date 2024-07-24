@@ -1,3 +1,7 @@
+## 0.1.1
+
+- Updating documentation.
+
 ## 0.1.0
 
 - Read EPUB from bytes

@@ -1,6 +1,6 @@
 name: epub_decoder
 description: Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
-version: 0.1.0
+version: 0.1.1
 homepage:
 repository: https://github.com/SofieTorch/epub_decoder
 
