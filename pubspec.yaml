@@ -1,10 +1,11 @@
 name: epub_parser
-description: "A new Flutter package project."
-version: 0.0.1
+description: Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
+version: 0.1.0
 homepage:
+repository: https://github.com/SofieTorch/epub_parser
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.4.3 <4.0.0"
   flutter: ">=1.17.0"
 
 dependencies:
