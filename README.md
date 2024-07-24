@@ -29,9 +29,9 @@ Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
 
 ### Work in progress
 
-[] Direct getters for relevant attributes (such as title, authors, etc.)  
-[] Read navigation definition  
-[] Support for bindings
+[ ] Direct getters for relevant attributes (such as title, authors, etc.)  
+[ ] Read navigation definition  
+[ ] Support for bindings
 
 ## Getting started
 
