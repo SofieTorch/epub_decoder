@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:archive/archive.dart';
-import 'package:epub_parser/epub.dart';
-import 'package:epub_parser/models/document_metadata.dart';
-import 'package:epub_parser/models/item_media_type.dart';
-import 'package:epub_parser/models/item_property.dart';
+import 'package:epub_decoder/epub.dart';
+import 'package:epub_decoder/models/document_metadata.dart';
+import 'package:epub_decoder/models/item_media_type.dart';
+import 'package:epub_decoder/models/item_property.dart';
 
 /// Representation of a resource (file) inside the EPUB.
 ///

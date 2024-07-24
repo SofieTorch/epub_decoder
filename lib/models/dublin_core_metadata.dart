@@ -1,4 +1,4 @@
-import 'package:epub_parser/models/metadata.dart';
+import 'package:epub_decoder/models/metadata.dart';
 
 /// Specific and primary information associated to an EPUB.
 ///

@@ -35,14 +35,14 @@ Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
 
 ## Getting started
 
-Install `epub_parser` as a dependency.
+Install `epub_decoder` as a dependency.
 
 ## Usage
 
 Start by instancing an Epub from an Epub file:
 
 ```dart
-import 'package:epub_parser/epub_parser.dart';
+import 'package:epub_decoder/epub_decoder.dart';
 
 // Creating an EPUB from an asset transformed to bytes
 final epubFile = await rootBundle.load('assets/example.epub');

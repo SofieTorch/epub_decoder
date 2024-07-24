@@ -1,4 +1,4 @@
-import 'package:epub_parser/models/document_metadata.dart';
+import 'package:epub_decoder/models/document_metadata.dart';
 
 ///  Relevant information associated to an EPUB or its elements.
 abstract class Metadata {

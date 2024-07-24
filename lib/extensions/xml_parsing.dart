@@ -1,5 +1,5 @@
-import 'package:epub_parser/epub.dart';
-import 'package:epub_parser/models/models.dart';
+import 'package:epub_decoder/epub.dart';
+import 'package:epub_decoder/models/models.dart';
 import 'package:xml/xml.dart';
 
 /// Add extra parsing for [XmlElement] to EPUB objects.

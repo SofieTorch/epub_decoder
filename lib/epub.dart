@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:epub_parser/extensions/xml_parsing.dart';
+import 'package:epub_decoder/extensions/xml_parsing.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 import 'package:archive/archive.dart';
-import 'package:epub_parser/models/models.dart';
-import 'package:epub_parser/standar_constants.dart';
+import 'package:epub_decoder/models/models.dart';
+import 'package:epub_decoder/standar_constants.dart';
 
 /// Representation of an EPUB file.
 ///

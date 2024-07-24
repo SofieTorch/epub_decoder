@@ -1,4 +1,4 @@
-import 'package:epub_parser/models/metadata.dart';
+import 'package:epub_decoder/models/metadata.dart';
 
 /// Relevant and flexible information associated to
 /// an [Item], another [Metadata], or the EPUB package itself.
