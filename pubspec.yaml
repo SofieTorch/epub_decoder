@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   archive: ^3.6.1
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
   xml: ^6.5.0

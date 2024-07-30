@@ -5,7 +5,7 @@ abstract class Metadata {
   Metadata({this.id, this.value, this.refinements = const []});
 
   /// Unique identifier in the whole EPUB.
-  String? id;
+  final String? id;
 
   /// Information associated to this metadata.
   final String? value;

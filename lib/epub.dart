@@ -18,7 +18,11 @@ class Epub {
   /// Constructs an [Epub] instance from a list of bytes.
   ///
   /// The [fileBytes] parameter should contain the raw bytes of the EPUB file.
-  Epub.fromBytes(this.fileBytes) : zip = ZipDecoder().decodeBytes(fileBytes);
+  Epub.fromBytes(this.fileBytes) : zip = ZipDecoder().decodeBytes(fileBytes) {
+    _metadata = Lazy(_initializeMetadata);
+    _items = Lazy(_initializeItems);
+    _sections = Lazy(_initializeSections);
+  }
 
   /// Constructs an [Epub] instance from a [File].
   ///
@@ -34,9 +38,9 @@ class Epub {
   /// The decoded ZIP archive of the EPUB file.
   final Archive zip;
 
-  List<Metadata>? _metadata;
-  List<Item>? _items;
-  List<Section>? _sections;
+  late final Lazy<List<Metadata>> _metadata;
+  late final Lazy<List<Item>> _items;
+  late final Lazy<List<Section>> _sections;
 
   /// Path to the root file (usually 'content.opf') in the EPUB.
   ///
@@ -70,9 +74,9 @@ class Epub {
   ///
   /// This includes both Dublin Core metadata and additional document metadata.
   /// If the metadata has already been parsed, returns the cached metadata.
-  List<Metadata> get metadata {
-    if (_metadata != null) return _metadata!;
+  List<Metadata> get metadata => _metadata.value;
 
+  List<Metadata> _initializeMetadata() {
     final metadata = <Metadata>[];
     final metadataxml = _rootFileContent.xpath('/package/metadata').first;
 
@@ -101,26 +105,26 @@ class Epub {
         } else {
           /// .add() throws error for unknown reason.
           target.refinements = [...target.refinements, docmetadata];
+          // target.refinements.add(docmetadata);
         }
       }
     });
 
-    _metadata = metadata;
-    return _metadata!;
+    return metadata;
   }
 
   /// Resources (images, audio, text, etc.) of the EPUB file, as [Item]s.
   ///
   /// If the items have already been parsed, returns the cached items.
-  List<Item> get items {
-    if (_items != null) return _items!;
+  List<Item> get items => _items.value;
 
+  List<Item> _initializeItems() {
     final items = <Item>[];
     final itemsxml = _rootFileContent.xpath('/package/manifest').first;
 
     for (var element in itemsxml.descendantElements) {
-      final item = element.toManifestItem(source: this);
       final mediaOverlayId = element.getAttribute('media-overlay');
+      Item item;
 
       if (mediaOverlayId != null) {
         final mediaOverlay = itemsxml.descendantElements.firstWhere(
@@ -128,7 +132,11 @@ class Epub {
           orElse: () => throw UnimplementedError(
               'Referenced media overlay not found or not declared.'),
         );
-        item.mediaOverlay = mediaOverlay.toManifestItem(source: this);
+        item = element.toManifestItem(
+            source: this,
+            mediaOverlay: mediaOverlay.toManifestItem(source: this));
+      } else {
+        item = element.toManifestItem(source: this);
       }
 
       item._addRefinementsFrom(metadata);
@@ -136,17 +144,16 @@ class Epub {
       items.add(item);
     }
 
-    _items = items;
-    return _items!;
+    return items;
   }
 
   /// Reading sections of the EPUB file in order.
   ///
   /// Sections are determined by the spine element in the EPUB's package document.
   /// If the sections have already been parsed, returns the cached sections.
-  List<Section> get sections {
-    if (_sections != null) return _sections!;
+  List<Section> get sections => _sections.value;
 
+  List<Section> _initializeSections() {
     final sections = <Section>[];
     final spinexml = _rootFileContent.xpath('/package/spine').first;
     final spineItems = spinexml.findAllElements('itemref');
@@ -164,8 +171,7 @@ class Epub {
       sections.add(section);
     }
 
-    _sections = sections;
-    return _sections!;
+    return sections;
   }
 }
 

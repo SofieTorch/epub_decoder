@@ -18,7 +18,10 @@ class Section {
   })  : assert(content.mediaType == ItemMediaType.xhtml),
         assert(content.mediaOverlay != null
             ? content.mediaOverlay?.mediaType == ItemMediaType.mediaOverlay
-            : true);
+            : true) {
+    _audio = Lazy(_initializeAudio);
+    _smilParallels = Lazy(_initializeSmilParallels);
+  }
 
   /// Source EPUB where this is from.
   final Epub epub;
@@ -31,8 +34,8 @@ class Section {
   /// Position relative to the other sections in the [epub].
   final int readingOrder;
 
-  ArchiveFile? _audio;
-  List<SmilParallel>? _smilParallels;
+  late final Lazy<ArchiveFile?> _audio;
+  late final Lazy<List<SmilParallel>> _smilParallels;
 
   /// Wheter this section has audio version.
   bool get hasAudio => content.mediaOverlay != null;
@@ -59,7 +62,10 @@ class Section {
   ///
   /// Returns `null` if the section has no audio version.
   Uint8List? get audio {
-    if (_audio != null) return _audio!.content;
+    return _audio.value?.content;
+  }
+
+  ArchiveFile? _initializeAudio() {
     if (!hasAudio) return null;
 
     final audioNode = _smil!.xpath('/smil/body/seq/par/audio').first;
@@ -70,22 +76,23 @@ class Section {
       throw UnimplementedError('Audio file: $audioPath not found');
     }
 
-    _audio = audioFile;
-    return _audio!.content;
+    return audioFile;
   }
 
   /// Parallels declared in the Media Overlay file.
   ///
   /// Returns an empty list if the section has no audio version.
   List<SmilParallel> get smilParallels {
-    if (_smilParallels != null) return _smilParallels!;
+    return _smilParallels.value;
+  }
+
+  List<SmilParallel> _initializeSmilParallels() {
     if (!hasAudio) return [];
 
     final xmlParallels = _smil!.findAllElements('par');
     final result = xmlParallels.map(SmilParallel.fromParXml);
-    _smilParallels = result.toList();
 
-    return _smilParallels!;
+    return result.toList();
   }
 
   /// Returns the [SmilParallel] corresponding to [currentTime].

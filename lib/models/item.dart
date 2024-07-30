@@ -36,7 +36,7 @@ class Item {
   List<DocumentMetadata> refinements;
 
   /// Representation of audio synchronized with the EPUB Content.
-  Item? mediaOverlay;
+  final Item? mediaOverlay;
 
   final Archive _source;
 

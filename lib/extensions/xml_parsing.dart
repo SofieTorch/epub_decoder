@@ -5,12 +5,13 @@ import 'package:xml/xml.dart';
 /// Add extra parsing for [XmlElement] to EPUB objects.
 extension XmlParsing on XmlElement {
   /// Creates an [Item] from an XML `<item>` tag inside EPUB `<manifest>`.
-  Item toManifestItem({required Epub source}) {
+  Item toManifestItem({required Epub source, Item? mediaOverlay}) {
     return Item(
       id: getAttribute('id')!,
       source: source,
       href: getAttribute('href')!,
       mediaType: ItemMediaType.fromValue(getAttribute('media-type')!),
+      mediaOverlay: mediaOverlay,
       properties: getAttribute('properties')
               ?.split(' ')
               .map((property) => ItemProperty.fromValue(property))
