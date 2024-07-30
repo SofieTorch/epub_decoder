@@ -10,7 +10,6 @@ class DublinCoreMetadata extends Metadata {
     required this.key,
     required super.value,
     super.id,
-    super.refinements = const [],
   });
 
   /// The piece of metadata being represented.

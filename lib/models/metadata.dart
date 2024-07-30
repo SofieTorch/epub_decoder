@@ -2,7 +2,7 @@ import 'package:epub_decoder/models/document_metadata.dart';
 
 ///  Relevant information associated to an EPUB or its elements.
 abstract class Metadata {
-  Metadata({this.id, this.value, this.refinements = const []});
+  Metadata({this.id, this.value});
 
   /// Unique identifier in the whole EPUB.
   final String? id;
@@ -11,7 +11,7 @@ abstract class Metadata {
   final String? value;
 
   /// Additional information for this metadata.
-  List<DocumentMetadata> refinements;
+  final List<DocumentMetadata> refinements = [];
 
   /// Empty instance of [Metadata].
   static Metadata get empty => DocumentMetadata();

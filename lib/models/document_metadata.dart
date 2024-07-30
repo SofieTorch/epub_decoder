@@ -13,7 +13,6 @@ class DocumentMetadata extends Metadata {
     this.schema,
     this.name,
     this.content,
-    super.refinements = const [],
   }) : _property = property;
 
   /// Identifier of the described item or metadata.

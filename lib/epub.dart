@@ -103,9 +103,7 @@ class Epub {
         if (target.isEmpty) {
           metadata.add(docmetadata);
         } else {
-          /// .add() throws error for unknown reason.
-          target.refinements = [...target.refinements, docmetadata];
-          // target.refinements.add(docmetadata);
+          target.refinements.add(docmetadata);
         }
       }
     });
@@ -181,14 +179,12 @@ extension on String {
 
 extension on Item {
   void _addRefinementsFrom(List<Metadata> metadata) {
-    refinements = [
-      ...refinements,
-      ...metadata
-          .where((element) =>
-              element is DocumentMetadata &&
-              element.refinesTo != null &&
-              element.refinesTo == id)
-          .map((element) => element as DocumentMetadata)
-    ];
+    final docmetadata = metadata
+        .where((element) =>
+            element is DocumentMetadata &&
+            element.refinesTo != null &&
+            element.refinesTo == id)
+        .map((element) => element as DocumentMetadata);
+    refinements.addAll(docmetadata);
   }
 }

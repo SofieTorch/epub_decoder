@@ -17,7 +17,6 @@ class Item {
     required Epub source,
     this.mediaOverlay,
     this.properties = const [],
-    this.refinements = const [],
   }) : _source = source.zip;
 
   /// Unique identifier in the whole EPUB.
@@ -33,7 +32,7 @@ class Item {
   final List<ItemProperty> properties;
 
   /// Additional information for this item.
-  List<DocumentMetadata> refinements;
+  final List<DocumentMetadata> refinements = [];
 
   /// Representation of audio synchronized with the EPUB Content.
   final Item? mediaOverlay;
