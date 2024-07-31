@@ -18,7 +18,8 @@ class Epub {
   /// Constructs an [Epub] instance from a list of bytes.
   ///
   /// The [fileBytes] parameter should contain the raw bytes of the EPUB file.
-  Epub.fromBytes(this.fileBytes) : zip = ZipDecoder().decodeBytes(fileBytes) {
+  Epub.fromBytes(Uint8List fileBytes)
+      : zip = ZipDecoder().decodeBytes(fileBytes) {
     _metadata = Lazy(_initializeMetadata);
     _items = Lazy(_initializeItems);
     _sections = Lazy(_initializeSections);
@@ -29,11 +30,7 @@ class Epub {
   /// The [file] parameter should point to a valid EPUB file.
   Epub.fromFile(File file)
       : assert(file.path._extension == 'epub'),
-        fileBytes = file.readAsBytesSync(),
         zip = ZipDecoder().decodeBytes(file.readAsBytesSync());
-
-  /// The raw bytes of the EPUB file.
-  final Uint8List fileBytes;
 
   /// The decoded ZIP archive of the EPUB file.
   final Archive zip;
