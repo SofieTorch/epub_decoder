@@ -12,6 +12,12 @@ and the Flutter guide for
 -->
 <h1 align="center">
 📑  EPUB Parser for Flutter  📑
+<br/>
+<a href="https://codecov.io/gh/SofieTorch/epub_decoder" > 
+ <img src="https://codecov.io/gh/SofieTorch/epub_decoder/graph/badge.svg?token=0D5LI5EWM6"/> 
+ </a>
+ <img alt="Pub Version" src="https://img.shields.io/pub/v/epub_decoder?color=blue&link=https%3A%2F%2Fpub.dev%2Fpackages%2Fepub_decoder">
+
 </h1>
 
 Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
