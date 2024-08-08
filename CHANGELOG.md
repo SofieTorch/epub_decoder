@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Update README to show code coverage.
+
 ## 0.1.2
 
 - Add equality to models for testing.
