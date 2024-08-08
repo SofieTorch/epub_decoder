@@ -16,6 +16,8 @@ and the Flutter guide for
 
 Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
 
+> If you found this package useful, star this repo and drop a like in pub.dev! 🌟.
+
 ## Features
 
 ✅ Read EPUB from bytes  
@@ -54,7 +56,7 @@ And then, access its properties:
 - **Retrieving Metadata:** `epub.metadata`
 
     <details>
-    <summary> :arrow_lower_right: Expand for example result</summary>
+    <summary>↘ Expand for example result</summary>
     
     Please note that this is actually a `List<Metadata>` object (here you are seeing its `.toString()` representation).
 
@@ -137,7 +139,7 @@ And then, access its properties:
 - **Retrieving resources/items:** `epub.items`
 
     <details>
-    <summary>:arrow_lower_right: Expand for example result</summary>
+    <summary>↘ Expand for example result</summary>
     
     Please note that this is actually a `List<Item>` object (here you are seeing its `.toString()` representation).
 
@@ -200,7 +202,7 @@ And then, access its properties:
 - **Retrieving reading sections:** `epub.sections`
 
     <details>
-    <summary>:arrow_lower_right: Expand for example result</summary>
+    <summary>↘ Expand for example result</summary>
     
     Please note that this is actually a `List<Section>` object (here you are seeing its `.toString()` representation).
 
@@ -292,7 +294,7 @@ And then, access its properties:
   ```
 
     <details>
-    <summary>:arrow_lower_right: Expand for example result</summary>
+    <summary>↘ Expand for example result</summary>
     
     Please note that this is actually a `SmilParallel` object (here you are seeing its `.toString()` representation).
 
@@ -315,8 +317,7 @@ To understand EPUB3 specification and therefore plan the structure of this packa
 
 However, you can learn more about in the [EPUB3 official specification documentation](https://www.w3.org/TR/epub-33) and [EPUB Media Overlays documentation](https://www.oreilly.com/library/view/epub-3-best/9781449329129/ch01.html).
 
-> [!IMPORTANT]
-> If you have any request or find some bug, feel free to open a new issue 😉.
+### Contributing
 
-> [!TIP]
-> If you found this package useful, star this repo and drop a like in pub.dev! 🌟.
+- If you have any request or find some bug, feel free to open a new issue.
+- if you want to contribute, open a new issue with your proposal and if approved, continue with a pull request 😉.
