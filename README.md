@@ -62,7 +62,7 @@ And then, access its properties:
 - **Retrieving Metadata:** `epub.metadata`
 
     <details>
-    <summary>↘ Expand for example result</summary>
+    <summary><i>Expand for example result</i></summary>
     
     Please note that this is actually a `List<Metadata>` object (here you are seeing its `.toString()` representation).
 
@@ -145,7 +145,7 @@ And then, access its properties:
 - **Retrieving resources/items:** `epub.items`
 
     <details>
-    <summary>↘ Expand for example result</summary>
+    <summary><i>Expand for example result</i></summary>
     
     Please note that this is actually a `List<Item>` object (here you are seeing its `.toString()` representation).
 
@@ -208,7 +208,7 @@ And then, access its properties:
 - **Retrieving reading sections:** `epub.sections`
 
     <details>
-    <summary>↘ Expand for example result</summary>
+    <summary><i>Expand for example result</i></summary>
     
     Please note that this is actually a `List<Section>` object (here you are seeing its `.toString()` representation).
 
@@ -300,7 +300,7 @@ And then, access its properties:
   ```
 
     <details>
-    <summary>↘ Expand for example result</summary>
+    <summary><i>Expand for example result</i></summary>
     
     Please note that this is actually a `SmilParallel` object (here you are seeing its `.toString()` representation).
 
