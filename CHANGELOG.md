@@ -1,3 +1,10 @@
+## 0.1.2
+
+- Add equality to models for testing.
+- Fix document metadata value when parsed from EPUB2 format.
+- Update throwed errors to be more explanatory.
+- Add package testing with demo resources.
+
 ## 0.1.1
 
 - Updating documentation.
