@@ -1,0 +1,8 @@
+<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <meta refines="#pubID" property="identifier-type" scheme="xsd:string">uuid</meta>
+    <meta refines="#aut" property="role" scheme="marc:relators">aut</meta>
+    <meta refines="#aut" property="file-as">Pettarin, Alberto</meta>
+    <meta name="cover" content="cover.png" />
+    <meta property="media:duration" refines="#s001">0:00:53.320</meta>
+    <meta property="media:duration">0:01:46.270</meta>
+</metadata>

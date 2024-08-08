@@ -1,0 +1,9 @@
+<manifest>
+    <item id="toc" href="Text/toc.xhtml" media-type="application/xhtml+xml" properties="nav" />
+    <item id="cover.png" href="Images/cover.png" media-type="image/png" properties="cover-image" />
+    <item id="c001" href="Styles/style.css" media-type="text/css" />
+
+    <item id="p001" href="Text/p001.xhtml" media-type="application/xhtml+xml" media-overlay="s001" />
+    <item id="s001" href="Text/p001.xhtml.smil" media-type="application/smil+xml" />
+    <item id="m001" href="Audio/p001.mp3" media-type="audio/mpeg" />
+</manifest>

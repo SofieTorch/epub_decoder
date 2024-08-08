@@ -1,0 +1,66 @@
+<smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops" version="3.0">
+ <body>
+  <seq id="s000001" epub:textref="p001.xhtml">
+   <par id="p000001">
+    <text src="p001.xhtml#f001"/>
+    <audio clipBegin="00:00:00.000" clipEnd="00:00:02.680" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000002">
+    <text src="p001.xhtml#f002"/>
+    <audio clipBegin="00:00:02.680" clipEnd="00:00:05.480" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000003">
+    <text src="p001.xhtml#f003"/>
+    <audio clipBegin="00:00:05.480" clipEnd="00:00:08.640" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000004">
+    <text src="p001.xhtml#f004"/>
+    <audio clipBegin="00:00:08.640" clipEnd="00:00:11.960" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000005">
+    <text src="p001.xhtml#f005"/>
+    <audio clipBegin="00:00:11.960" clipEnd="00:00:15.279" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000006">
+    <text src="p001.xhtml#f006"/>
+    <audio clipBegin="00:00:15.279" clipEnd="00:00:18.519" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000007">
+    <text src="p001.xhtml#f007"/>
+    <audio clipBegin="00:00:18.519" clipEnd="00:00:22.760" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000008">
+    <text src="p001.xhtml#f008"/>
+    <audio clipBegin="00:00:22.760" clipEnd="00:00:25.719" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000009">
+    <text src="p001.xhtml#f009"/>
+    <audio clipBegin="00:00:25.719" clipEnd="00:00:31.239" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000010">
+    <text src="p001.xhtml#f010"/>
+    <audio clipBegin="00:00:31.239" clipEnd="00:00:34.280" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000011">
+    <text src="p001.xhtml#f011"/>
+    <audio clipBegin="00:00:34.280" clipEnd="00:00:36.960" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000012">
+    <text src="p001.xhtml#f012"/>
+    <audio clipBegin="00:00:36.960" clipEnd="00:00:40.640" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000013">
+    <text src="p001.xhtml#f013"/>
+    <audio clipBegin="00:00:40.640" clipEnd="00:00:43.600" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000014">
+    <text src="p001.xhtml#f014"/>
+    <audio clipBegin="00:00:43.600" clipEnd="00:00:48.000" src="../Audio/p001.mp3"/>
+   </par>
+   <par id="p000015">
+    <text src="p001.xhtml#f015"/>
+    <audio clipBegin="00:00:48.000" clipEnd="00:00:53.280" src="../Audio/p001.mp3"/>
+   </par>
+  </seq>
+ </body>
+</smil>
