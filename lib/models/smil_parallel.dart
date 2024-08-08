@@ -1,4 +1,5 @@
 import 'package:epub_decoder/extensions/duration_parsing.dart';
+import 'package:equatable/equatable.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
 
@@ -8,7 +9,7 @@ import 'package:xml/xpath.dart';
 /// Parallel is a representation of <par> elements which contains media objects.
 /// This should be part of a sequence of parallels, usually inside a [Section],
 /// which is where the audio and text/content comes from.
-class SmilParallel {
+class SmilParallel extends Equatable {
   /// Creates a [SmilParallel], representation
   /// of audio-text synchronization.
   const SmilParallel({
@@ -36,7 +37,7 @@ class SmilParallel {
   final String textId;
 
   /// Creates a [SmilParallel] from a <par> xml element.
-  factory SmilParallel.fromParXml(XmlElement xml) {
+  factory SmilParallel.fromXmlElement(XmlElement xml) {
     final audioNode = xml.xpath('audio').first;
     final textNode = xml.xpath('text').first;
     return SmilParallel(
@@ -53,13 +54,5 @@ class SmilParallel {
   }
 
   @override
-  String toString() {
-    return {
-      'id': id,
-      'clipBegin': clipBegin,
-      'clipEnd': clipEnd,
-      'textFileName': textFileName,
-      'textId': textId,
-    }.toString();
-  }
+  List<Object?> get props => [id, clipBegin, clipEnd, textFileName, textId];
 }

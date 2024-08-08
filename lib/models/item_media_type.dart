@@ -17,7 +17,7 @@ enum ItemMediaType {
   /// media-type for WebP images.
   webp('image/webp'),
 
-  /// media-type for MP3 audio.
+  /// media-type for MP3 audio (mpeg).
   audioMP3('audio/mpeg'),
 
   /// media-type for AAC LC audio using MP4 container.

@@ -1,4 +1,6 @@
 import 'package:epub_decoder/models/metadata.dart';
+import 'package:epub_decoder/models/models.dart';
+import 'package:xml/xml.dart';
 
 /// Specific and primary information associated to an EPUB.
 ///
@@ -12,6 +14,15 @@ class DublinCoreMetadata extends Metadata {
     super.id,
   });
 
+  /// Creates a [DublinCoreMetadata] from an XML `<dc:` tag inside EPUB `<metadata>`.
+  factory DublinCoreMetadata.fromXmlElement(XmlElement xml) {
+    return DublinCoreMetadata(
+      key: xml.name.toString().substring(3),
+      value: xml.innerText,
+      id: xml.getAttribute('id'),
+    );
+  }
+
   /// The piece of metadata being represented.
   ///
   /// Identifies the type of metadata, such as 'title',
@@ -20,16 +31,9 @@ class DublinCoreMetadata extends Metadata {
 
   @override
   bool get isEmpty {
-    return key.trim() == '' && super.isEmpty;
+    return key.isEmpty && super.isEmpty;
   }
 
   @override
-  String toString() {
-    return {
-      'key': key,
-      'id': id,
-      'value': value,
-      'refinements': refinements.toString(),
-    }.toString();
-  }
+  List<Object?> get props => [key, id, value, refinements];
 }

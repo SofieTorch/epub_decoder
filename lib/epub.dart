@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:epub_decoder/extensions/xml_parsing.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:xml/xml.dart';
 import 'package:xml/xpath.dart';
@@ -14,7 +14,7 @@ import 'package:epub_decoder/standar_constants.dart';
 ///
 /// This class provides methods to parse an EPUB file from bytes or from a file,
 /// and access its metadata, manifest items, and spine through [Section]s.
-class Epub {
+class Epub extends Equatable {
   /// Constructs an [Epub] instance from a list of bytes.
   ///
   /// The [fileBytes] parameter should contain the raw bytes of the EPUB file.
@@ -30,7 +30,11 @@ class Epub {
   /// The [file] parameter should point to a valid EPUB file.
   Epub.fromFile(File file)
       : assert(file.path._extension == 'epub'),
-        zip = ZipDecoder().decodeBytes(file.readAsBytesSync());
+        zip = ZipDecoder().decodeBytes(file.readAsBytesSync()) {
+    _metadata = Lazy(_initializeMetadata);
+    _items = Lazy(_initializeItems);
+    _sections = Lazy(_initializeSections);
+  }
 
   /// The decoded ZIP archive of the EPUB file.
   final Archive zip;
@@ -77,33 +81,32 @@ class Epub {
     final metadata = <Metadata>[];
     final metadataxml = _rootFileContent.xpath('/package/metadata').first;
 
-    metadataxml.descendantElements
-        .where((element) => element.name.toString().startsWith('dc:'))
-        .forEach((element) {
-      final dcmetadata = element.toDublinCoreMetadata();
-      metadata.add(dcmetadata);
-    });
+    for (var element in metadataxml.descendantElements) {
+      if (element.name.toString().startsWith('dc:')) {
+        final dcmetadata = DublinCoreMetadata.fromXmlElement(element);
+        metadata.add(dcmetadata);
+        continue;
+      }
 
-    metadataxml.descendantElements
-        .where((element) => element.name.toString() == 'meta')
-        .forEach((element) {
-      final docmetadata = element.toDocumentMetadata();
+      if (element.name.toString() == 'meta') {
+        final docmetadata = DocumentMetadata.fromXmlElement(element);
 
-      if (docmetadata.refinesTo == null) {
-        metadata.add(docmetadata);
-      } else {
-        final target = metadata.firstWhere(
-          (metaelement) => docmetadata.refinesTo == metaelement.id,
-          orElse: () => Metadata.empty,
-        );
-
-        if (target.isEmpty) {
+        if (docmetadata.refinesTo == null) {
           metadata.add(docmetadata);
         } else {
-          target.refinements.add(docmetadata);
+          final target = metadata.firstWhere(
+            (metaelement) => docmetadata.refinesTo == metaelement.id,
+            orElse: () => Metadata.empty,
+          );
+
+          if (target.isEmpty) {
+            metadata.add(docmetadata);
+          } else {
+            target.refinements.add(docmetadata);
+          }
         }
       }
-    });
+    }
 
     return metadata;
   }
@@ -127,11 +130,13 @@ class Epub {
           orElse: () => throw UnimplementedError(
               'Referenced media overlay not found or not declared.'),
         );
-        item = element.toManifestItem(
-            source: this,
-            mediaOverlay: mediaOverlay.toManifestItem(source: this));
+        item = Item.fromXmlElement(
+          element,
+          source: this,
+          mediaOverlay: Item.fromXmlElement(mediaOverlay, source: this),
+        );
       } else {
-        item = element.toManifestItem(source: this);
+        item = Item.fromXmlElement(element, source: this);
       }
 
       item._addRefinementsFrom(metadata);
@@ -159,7 +164,7 @@ class Epub {
 
       final section = Section(
         content: item,
-        epub: this,
+        source: this,
         readingOrder: index + 1,
       );
 
@@ -168,6 +173,20 @@ class Epub {
 
     return sections;
   }
+
+  /// The list of properties that are used to determine whether two instances are equal.
+  ///
+  /// props[0] = metadata, props[1] = items, props[2] = sections
+  @override
+  List<Object?> get props => [
+        // zip,
+        // _metadata.isInitialized ? _metadata.value : null,
+        // _items.isInitialized ? _items.value : null,
+        // _sections.isInitialized ? _sections.value : null,
+        _metadata,
+        _items,
+        _sections
+      ];
 }
 
 extension on String {

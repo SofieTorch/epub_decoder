@@ -5,11 +5,13 @@ import 'package:epub_decoder/epub.dart';
 import 'package:epub_decoder/models/document_metadata.dart';
 import 'package:epub_decoder/models/item_media_type.dart';
 import 'package:epub_decoder/models/item_property.dart';
+import 'package:equatable/equatable.dart';
+import 'package:xml/xml.dart';
 
 /// Representation of a resource (file) inside the EPUB.
 ///
 /// Specifically, the `<item>` tag in EPUB Manifest.
-class Item {
+class Item extends Equatable {
   Item({
     required this.id,
     required this.href,
@@ -18,6 +20,27 @@ class Item {
     this.mediaOverlay,
     this.properties = const [],
   }) : _source = source.zip;
+
+  /// Creates an [Item] from an XML `<item>` tag inside EPUB `<manifest>`.
+  factory Item.fromXmlElement(
+    XmlElement xml, {
+    required Epub source,
+    Item? mediaOverlay,
+  }) {
+    return Item(
+      id: xml.getAttribute('id')!,
+      source: source,
+      href: xml.getAttribute('href')!,
+      mediaType: ItemMediaType.fromValue(xml.getAttribute('media-type')!),
+      mediaOverlay: mediaOverlay,
+      properties: xml
+              .getAttribute('properties')
+              ?.split(' ')
+              .map((property) => ItemProperty.fromValue(property))
+              .toList() ??
+          [],
+    );
+  }
 
   /// Unique identifier in the whole EPUB.
   final String id;
@@ -55,14 +78,12 @@ class Item {
   }
 
   @override
-  String toString() {
-    return {
-      'id': id,
-      'href': href,
-      'mediaType': mediaType,
-      'properties': properties.toString(),
-      'mediaOverlay': mediaOverlay.toString(),
-      'refinements': refinements.toString(),
-    }.toString();
-  }
+  List<Object?> get props => [
+        id,
+        href,
+        mediaType,
+        properties,
+        mediaOverlay,
+        refinements,
+      ];
 }

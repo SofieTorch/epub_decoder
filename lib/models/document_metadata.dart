@@ -1,4 +1,5 @@
 import 'package:epub_decoder/models/metadata.dart';
+import 'package:xml/xml.dart';
 
 /// Relevant and flexible information associated to
 /// an [Item], another [Metadata], or the EPUB package itself.
@@ -10,10 +11,23 @@ class DocumentMetadata extends Metadata {
     String? property,
     super.value,
     super.id,
-    this.schema,
+    this.scheme,
     this.name,
     this.content,
   }) : _property = property;
+
+  /// Creates a [DocumentMetadata] from an XML `<meta>` tag inside EPUB `<metadata>`.
+  factory DocumentMetadata.fromXmlElement(XmlElement xml) {
+    return DocumentMetadata(
+      refinesTo: xml.getAttribute('refines')?.substring(1),
+      property: xml.getAttribute('property'),
+      value: xml.innerText.isNotEmpty ? xml.innerText : null,
+      id: xml.getAttribute('id'),
+      scheme: xml.getAttribute('scheme'),
+      name: xml.getAttribute('name'),
+      content: xml.getAttribute('content'),
+    );
+  }
 
   /// Identifier of the described item or metadata.
   final String? refinesTo;
@@ -22,7 +36,7 @@ class DocumentMetadata extends Metadata {
   final String? _property;
 
   /// Formal definition of [property].
-  final String? schema;
+  final String? scheme;
 
   /// Property being described to [refinesTo] in EPUB2.
   final String? name;
@@ -53,23 +67,21 @@ class DocumentMetadata extends Metadata {
   bool get isEmpty {
     return refinesTo == null &&
         property == null &&
-        schema == null &&
+        scheme == null &&
         name == null &&
         content == null &&
         super.isEmpty;
   }
 
   @override
-  String toString() {
-    return {
-      'id': id,
-      'value': value,
-      'refinesTo': refinesTo,
-      'property': property,
-      'schema': schema,
-      'name': name,
-      'content': content,
-      'refinements': refinements.toString(),
-    }.toString();
-  }
+  List<Object?> get props => [
+        id,
+        value,
+        refinesTo,
+        property,
+        scheme,
+        name,
+        content,
+        refinements,
+      ];
 }
