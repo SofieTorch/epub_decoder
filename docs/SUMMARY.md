@@ -1,3 +1,3 @@
 # Table of contents
 
-* [Page](README.md)
+* [📑 EPUB Parser for Flutter 📑](README.md)
