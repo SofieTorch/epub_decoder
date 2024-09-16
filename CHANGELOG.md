@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Add getters for common attributes of EPUBs (title, authors and cover).
+
 ## 0.1.3
 
 - Update README to show code coverage.
