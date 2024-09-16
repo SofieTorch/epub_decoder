@@ -37,7 +37,6 @@ Flutter Package to parse EPUB files (EBooks), with support for Media Overlays!
 
 ### Work in progress
 
-- [ ] Direct getters for relevant attributes (such as title, authors, etc.)
 - [ ] Read navigation definition
 - [ ] Support for bindings
 
@@ -58,6 +57,8 @@ final epub = Epub.fromBytes(epubFile.buffer.asUint8List());
 ```
 
 And then, access its properties:
+
+- **Main info:** `epub.title`, `epub.authors`, `epub.cover`.
 
 - **Retrieving Metadata:** `epub.metadata`
 
