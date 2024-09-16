@@ -93,7 +93,7 @@ void main() {
   test('''Section.audio throws exception
       when the referenced audio file is not found''', () {
     final badFormattedEpub = Epub.fromFile(
-      File('test/resources/bad_formatted_demo.epub'),
+      File('test/resources/bad_formatted_demo01.epub'),
     );
 
     final section = Section(

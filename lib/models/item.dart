@@ -51,7 +51,9 @@ class Item extends Equatable {
   /// Media type of the represented file.
   final ItemMediaType mediaType;
 
-  /// Special uses for this item.
+  /// Indicators that this item has some special use case, such as cover image, svg, etc.
+  ///
+  /// See [ItemProperty] for all the available use cases.
   final List<ItemProperty> properties;
 
   /// Additional information for this item.
