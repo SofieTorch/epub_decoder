@@ -43,6 +43,33 @@ class Epub extends Equatable {
   late final Lazy<List<Item>> _items;
   late final Lazy<List<Section>> _sections;
 
+  String get title =>
+      metadata
+          .firstWhere(
+              (element) =>
+                  element is DublinCoreMetadata && element.key == 'title',
+              orElse: () => Metadata.empty)
+          .value ??
+      '';
+
+  List<String> get authors => metadata
+      .where((element) =>
+          element is DublinCoreMetadata && element.key == 'creator')
+      .map((element) => element.value ?? '')
+      .toList();
+
+  Item? get cover {
+    Item? result;
+    try {
+      result = items.firstWhere(
+        (element) => element.properties.contains(ItemProperty.coverImage),
+      );
+    } on StateError {
+      result = null;
+    }
+    return result;
+  }
+
   /// Path to the root file (usually 'content.opf') in the EPUB.
   ///
   /// Throws a [FormatException] if the container file or the root file path
@@ -128,7 +155,7 @@ class Epub extends Equatable {
         final mediaOverlay = itemsxml.descendantElements.firstWhere(
           (itemxml) => itemxml.getAttribute('id') == mediaOverlayId,
           orElse: () => throw UnimplementedError(
-              'Referenced media overlay not found or not declared.'),
+              'Media overlay with id $mediaOverlayId not found or not declared.'),
         );
         item = Item.fromXmlElement(
           element,
