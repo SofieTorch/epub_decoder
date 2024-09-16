@@ -10,7 +10,8 @@ void main() {
   setUp(() {
     epub = Epub.fromFile(File('test/resources/demo.epub'));
 
-    final badFormattedEpubFile = File('test/resources/bad_formatted_demo.epub');
+    final badFormattedEpubFile =
+        File('test/resources/bad_formatted_demo01.epub');
     badFormattedEpub = Epub.fromBytes(badFormattedEpubFile.readAsBytesSync());
   });
 
@@ -88,5 +89,35 @@ void main() {
     // Invoking epub sections
     epub.sections;
     expect(epub, isNot(equals(epub2)));
+  });
+
+  test('''Epub.title returns EPUB title correctly''', () {
+    expect(epub.title, '[DEMO002] How To Create EPUB 3 Read Aloud eBooks');
+  });
+
+  test('''Epub.title returns empty when <dc:title> does not exist''', () {
+    expect(badFormattedEpub.title, '');
+  });
+
+  test('''Epub.authors returns EPUB authors correctly''', () {
+    expect(epub.authors, ['Alberto Pettarin']);
+  });
+
+  test('''Epub.cover returns expected Item''', () {
+    final cover = epub.cover;
+    expect(cover, isNotNull);
+    expect(cover!.id, 'cover.png');
+    expect(cover.href, 'Images/cover.png');
+    expect(cover.mediaType, ItemMediaType.png);
+    expect(cover.properties, [ItemProperty.coverImage]);
+  });
+
+  test('''Epub.cover returns null when no
+      Item with "cover-image" in its properties exist''', () {
+    final epubWithoutCover = Epub.fromFile(
+      File('test/resources/bad_formatted_demo02_no_cover.epub'),
+    );
+
+    expect(epubWithoutCover.cover, isNull);
   });
 }
